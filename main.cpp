@@ -1,8 +1,10 @@
 #include <iostream>
 #include "food.cpp"
+#include "date.cpp"
 using namespace std;
 
 int main() {
-    cout << "Hello World!\n";
+    date today(10,18,2016);
+    //shrimp first(today, 50);
     return 0;
 }
