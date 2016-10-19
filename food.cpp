@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "date.cpp"
+#pragma once
 using namespace std;
 
 class box {
