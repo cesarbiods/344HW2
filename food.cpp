@@ -1,32 +1,37 @@
 #include <iostream>
 #include <string>
+#include "date.cpp"
 using namespace std;
 
-//TODO Figure out how to build date class
-
 class box {
-    public:
+    private:
     bool open;
-    string expirationDate;
+    date* expirationDate;
     int num;
-    box(string e, int n) {
-        expirationDate = e;
+    
+    public:
+    box(date e, int n) {
+        expirationDate = &e;
         num = n;
     }
 };
 
 class shrimp:public box {
-    shrimp(string e, int n);
+    public:
+    shrimp(date e, int n);
 };
 
 class lobster:public box {
-    lobster(string e, int n);
+    public:
+    lobster(date e, int n);
 };
 
 class crab:public box {
-    crab(string e, int n);
+    public:
+    crab(date e, int n);
 };
 
 class swordfish:public box {
-    swordfish(string e, int n);
+    public:
+    swordfish(date e, int n);
 };
