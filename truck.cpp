@@ -1,25 +1,31 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 #include "food.cpp"
-#pragma once
 using namespace std;
 
+//class compare {
+    //public:
+    //bool operator()(const box& a, const box& b) {
+        //return older(a.expirationDate, b.expirationDate);
+    //}
+//};
+
 class truck {
-    private:
-    truck() {
-        std::vector<box> stockpile;
-    }
+    priority_queue<box> pq;
 
+    public:
     void addBox(box b) {
-        stockpile.push_back(b);
+        pq.push(b);
     }
 
-    void rmBox(int i) {
-        stockpile.erase(stockpile.begin() + i);
+    void rmBox() {
+        //pq.pop();
     }
 
-    int openBox() {
+    int openBox(string n) {
         //TODO check whether a box is an instance of X and it its open
+        return 0;
     }
 };
