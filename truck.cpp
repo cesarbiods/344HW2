@@ -5,27 +5,49 @@
 #include "food.cpp"
 using namespace std;
 
-//class compare {
-    //public:
-    //bool operator()(const box& a, const box& b) {
-        //return older(a.expirationDate, b.expirationDate);
-    //}
-//};
-
 class truck {
-    priority_queue<box> pq;
+    priority_queue<shrimp> sh;
+    priority_queue<lobster> lo;
+    priority_queue<crab> cr;
+    priority_queue<swordfish> sw;
 
     public:
-    void addBox(box b) {
-        pq.push(b);
+    void addShrimp(shrimp s) {
+        sh.push(s);
+    }
+    void addLobster(lobster l) {
+        lo.push(l);
+    }
+    void addCrab(crab c) {
+        cr.push(c);
+    }
+    void addSwordfish(swordfish s) {
+        sw.push(s);
     }
 
-    void rmBox() {
-        //pq.pop();
+    void rmShrimp() {
+        sh.pop();
+    }
+    void rmLobster() {
+        lo.pop();
+    }
+    void rmCrab() {
+        cr.pop();
+    }
+    void rmSwordfish() {
+        sw.pop();
     }
 
-    int openBox(string n) {
-        //TODO check whether a box is an instance of X and it its open
-        return 0;
+    bool shrimpOpen(shrimp s) {
+        return s.open;
+    }
+    bool lobsterOpen(lobster l) {
+        return l.open;
+    }
+    bool crabOpen(crab c) {
+        return c.open;
+    }
+    bool swordfishOpen(swordfish s) {
+        return s.open;
     }
 };
