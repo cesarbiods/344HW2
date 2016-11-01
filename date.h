@@ -9,5 +9,3 @@ class date {
     void print();
     
 };
-
-//bool older(date a, date b);
