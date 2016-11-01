@@ -6,9 +6,10 @@
 using namespace std;
 
 int main() {
+    truck t;
+
     date today(10,18,2016);
     shrimp first(today, 50);
-    truck truck;
-    truck.addShrimp(first);
+    t.addShrimp(first);
     return 0;
 }

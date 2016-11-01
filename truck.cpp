@@ -50,4 +50,6 @@ class truck {
     bool swordfishOpen(swordfish s) {
         return s.open;
     }
+
+    
 };
