@@ -17,6 +17,7 @@ int main() {
     string rawDate;
     string type;
     int count;
+    bool backOrder;
        
     do {
         cin >> command;
@@ -36,14 +37,34 @@ int main() {
             rawDate = rawDate.substr(finish+1);
             day = stoi(rawDate.substr(0, finish)); // Extracts day part from date string
             rawDate = rawDate.substr(finish+1);
-            year = stoi(rawDate.substr(0, finish)); // Extracts year part from date string
+            year = stoi(rawDate.substr(0, 4)); // Extracts year part from date string
             rawDate = rawDate.substr(finish+1);
         }
-        cout << month;
-        cout << day;
-        cout << year;
+        date date(month, day, year);
 
         if (command == "stock") {
+            //TODO: Here you will check for back orders
+            if (type == "shrimp") {
+                while (count > 0) {
+                    t.addShrimp(shrimp(date, 50));
+                    count--;
+                }
+            } else if (type == "lobster") {
+                while (count > 0) {
+                    t.addLobster(lobster(date, 4));
+                    count--;
+                }
+            } else if (type == "crab") {
+                while (count > 0) {
+                    t.addCrab(crab(date, 6));
+                    count--;
+                }
+            } else if (type == "swordfish") {
+                while (count > 0) {
+                    t.addSwordfish(swordfish(date, 8));
+                    count--;
+                }
+            }
 
         } else if (command == "buy") {
 
