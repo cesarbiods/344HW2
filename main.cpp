@@ -9,35 +9,46 @@
 
 using namespace std;
 
-//found this algorythm in http://stackoverflow.com/questions/236129/split-a-string-in-c?page=1&tab=votes#tab-top
-void split(const string &s, char delim, vector<string> &elems) {
-    stringstream ss;
-    ss.str(s);
-    string item;
-    while (getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-}
-
 int main() {
     truck t;
 
     cout << "Enter your command: ";
-    string input;
-    cin >> input;
-    vector<string> line;                //initialize a vector of strings for every line of input
-    split(input, ' ', line);            //split the user input by spaces and add it to the vector
-    for (int i=0; i < line.size(); i++) {
-        cout << line[i] << ' ';
-    }
-    
-    //while(line[0] != "quit") {
-        if (line[0] == "stock") {
+    string command;
+    string rawDate;
+    string type;
+    int count;
+       
+    do {
+        cin >> command;
+        cin >> rawDate;
+        cin >> type;
+        cin >> count;
 
-        } else if (line[0] == "buy") {
+        //got this spliter from http://stackoverflow.com/questions/28545031/take-input-of-date-in-format-mm-dd-yyyy-and-split-into-3-separate-variables
+        string delimiter = "/"; 
+        int month,day,year;
+        auto start = rawDate.begin(); // iterator at beginning of string
+        auto finish = rawDate.find(delimiter); // gives position of first occurrence of delimiter
+        if (finish == rawDate.npos) {
+            // delimiter does not exist in string.
+        } else {
+            month = stoi(rawDate.substr(0, finish)); // Extracts month part from date string
+            rawDate = rawDate.substr(finish+1);
+            day = stoi(rawDate.substr(0, finish)); // Extracts day part from date string
+            rawDate = rawDate.substr(finish+1);
+            year = stoi(rawDate.substr(0, finish)); // Extracts year part from date string
+            rawDate = rawDate.substr(finish+1);
+        }
+        cout << month;
+        cout << day;
+        cout << year;
+
+        if (command == "stock") {
+
+        } else if (command == "buy") {
 
         }
-    //}
+    } while (command != "quit");
 
     return 0;
 }
