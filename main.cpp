@@ -43,7 +43,6 @@ int main() {
         date date(month, day, year);
 
         if (command == "stock") {
-            //TODO: Here you will check for back orders
             if (type == "shrimp") {
                 while (count > 0) {
                     t.addShrimp(shrimp(date, 50));
@@ -65,9 +64,44 @@ int main() {
                     count--;
                 }
             }
-
         } else if (command == "buy") {
-
+            if (type == "shrimp") {
+                if (count < t.sh.top().num) {
+                    shrimp temp = t.sh.top();
+                    t.rmShrimp();
+                    temp.updateNum(temp.num - count);
+                    t.addShrimp(temp);
+                } else if (count == t.sh.top().num) {
+                    t.rmShrimp();
+                }
+            } else if (type == "lobster") {
+                if (count < t.lo.top().num) {
+                    lobster temp = t.lo.top();
+                    t.rmLobster();
+                    temp.updateNum(temp.num - count);
+                    t.addLobster(temp);
+                } else if (count == t.lo.top().num) {
+                    t.rmLobster();
+                }
+            } else if (type == "crab") {
+                if (count < t.cr.top().num) {
+                    crab temp = t.cr.top();
+                    t.rmCrab();
+                    temp.updateNum(temp.num - count);
+                    t.addCrab(temp);
+                } else if (count == t.cr.top().num) {
+                    t.rmCrab();
+                }
+            } else if (type == "swordfish") {
+                if (count < t.sw.top().num) {
+                    swordfish temp = t.sw.top();
+                    t.rmSwordfish();
+                    temp.updateNum(temp.num - count);
+                    t.addSwordfish(temp);
+                } else if (count == t.sw.top().num) {
+                    t.rmSwordfish();
+                }
+            }
         }
     } while (command != "quit");
 

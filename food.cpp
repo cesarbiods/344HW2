@@ -3,7 +3,6 @@
 #include "date.h"
 #pragma once
 using namespace std;
-enum type {SHRIMP = 0, LOBSTER, CRAB, SWORDFISH};
 
 class box {
     

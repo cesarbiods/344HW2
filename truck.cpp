@@ -6,12 +6,13 @@
 using namespace std;
 
 class truck {
+
+    public:
     priority_queue<shrimp> sh;
     priority_queue<lobster> lo;
     priority_queue<crab> cr;
     priority_queue<swordfish> sw;
-
-    public:
+    
     void addShrimp(shrimp s) {
         sh.push(s);
     }
