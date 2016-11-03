@@ -12,7 +12,7 @@ class truck {
     priority_queue<lobster> lo;
     priority_queue<crab> cr;
     priority_queue<swordfish> sw;
-    
+
     void addShrimp(shrimp s) {
         sh.push(s);
     }

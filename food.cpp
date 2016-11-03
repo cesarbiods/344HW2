@@ -21,7 +21,13 @@ class box {
     }
 
     friend bool operator <(const box& a, const box& b) {
-        return older(a.expirationDate, b.expirationDate);
+        if (a.open) {
+            return true;
+        } else if (a.open == false && b.open == true) {
+            return false;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -34,7 +40,13 @@ class shrimp:public box {
     }
 
     friend bool operator <(const shrimp& a, const shrimp& b) {
-        return older(a.expirationDate, b.expirationDate);
+        if (a.open) {
+            return true;
+        } else if (a.open == false && b.open == true) {
+            return false;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -47,7 +59,13 @@ class lobster:public box {
     }
 
     friend bool operator <(const lobster& a, const lobster& b) {
-        return older(a.expirationDate, b.expirationDate);
+        if (a.open) {
+            return true;
+        } else if (a.open == false && b.open == true) {
+            return false;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -60,7 +78,13 @@ class crab:public box {
     }
 
     friend bool operator <(const crab& a, const crab& b) {
-        return older(a.expirationDate, b.expirationDate);
+        if (a.open) {
+            return true;
+        } else if (a.open == false && b.open == true) {
+            return false;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -73,6 +97,12 @@ class swordfish:public box {
     }
     
     friend bool operator <(const swordfish& a, const swordfish& b) {
-        return older(a.expirationDate, b.expirationDate);
+        if (a.open) {
+            return true;
+        } else if (a.open == false && b.open == true) {
+            return false;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
