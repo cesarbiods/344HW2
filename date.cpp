@@ -10,8 +10,8 @@ using namespace std;
         year = y;
     }
 
-    void date::print() {
-        printf("%d/%d/%d\n", month, day, year);
+    string date::print() {
+        return to_string(month) + "/" + to_string(day) + "/" + to_string(year);
     }
 
 bool older(date* const a, date* const b) {

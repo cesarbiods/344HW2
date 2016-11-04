@@ -6,6 +6,6 @@ class date {
     
     date(int m, int d, int y);
 
-    void print();
+    std::string print();
     
 };
