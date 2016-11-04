@@ -21,6 +21,9 @@ int main() {
        
     do {
         cin >> command;
+        if (command == "quit") {
+            break;
+        }
         cin >> rawDate;
         cin >> type;
         cin >> count;

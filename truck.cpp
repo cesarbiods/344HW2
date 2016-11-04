@@ -42,19 +42,6 @@ class truck {
         sw.pop();
     }
 
-    bool shrimpOpen(shrimp s) {
-        return s.open;
-    }
-    bool lobsterOpen(lobster l) {
-        return l.open;
-    }
-    bool crabOpen(crab c) {
-        return c.open;
-    }
-    bool swordfishOpen(swordfish s) {
-        return s.open;
-    }
-
     void printShrimp(priority_queue<shrimp, vector<shrimp>, compare1> sh) {
         printf("Shrimp: ");
         while (!sh.empty()) {
@@ -66,8 +53,7 @@ class truck {
             } else {
                 s = 'c';
             }
-            date d = *largest.expirationDate;
-            string line = d.print() + ":" + to_string(largest.num) + ":" + s;
+            string line = largest.expirationDate->print() + ":" + to_string(largest.num) + ":" + s;
             cout << line << (!sh.empty() ? ", " : "");
         }
         cout << endl;
@@ -118,9 +104,7 @@ class truck {
             } else {
                 s = 'c';
             }
-            date d = *largest.expirationDate;
-            cout << d.print();
-            string line = d.print() + ":" + to_string(largest.num) + ":" + s;
+            string line = largest.expirationDate->print() + ":" + to_string(largest.num) + ":" + s;
             cout << line << (!sh.empty() ? ", " : "");
         }
         cout << endl;
