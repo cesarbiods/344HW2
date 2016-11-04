@@ -16,20 +16,9 @@ class box {
         num = n;
     }
 
-
     void updateNum(int a) {
         num = a;
     }
-
-    /*friend bool operator <(const box& a, const box& b) {
-        if (a.open) {
-            return true;
-        } else if (a.open == false && b.open == true) {
-            return false;
-        } else {
-            return older(a.expirationDate, b.expirationDate);
-        }
-    }*/
 };
 
 class shrimp:public box {
@@ -39,24 +28,14 @@ class shrimp:public box {
     void updateNum(int a) {
         num = a;
     }
-
-    /*friend bool operator <(const shrimp& a, const shrimp& b) {
-        if (a.open) {
-            return true;
-        } else if (a.open == false && b.open == true) {
-            return false;
-        } else {
-            return older(a.expirationDate, b.expirationDate);
-        }
-    }*/
 };
 
 struct compare1 {
     bool operator()(shrimp a, shrimp b) { 
         if (a.open) {
-            return true; 
+            return false; 
         } else if (!a.open && b.open) {
-            return false;
+            return true;
         } else {
             return older(a.expirationDate, b.expirationDate);
         }
@@ -70,24 +49,14 @@ class lobster:public box {
     void updateNum(int a) {
         num = a;
     }
-
-    /*friend bool operator <(const lobster& a, const lobster& b) {
-        if (a.open) {
-            return true;
-        } else if (a.open == false && b.open == true) {
-            return false;
-        } else {
-            return older(a.expirationDate, b.expirationDate);
-        }
-    }*/
 };
 
 struct compare2 {
     bool operator()(lobster a, lobster b) { 
         if (a.open) {
-            return true; 
+            return false; 
         } else if (!a.open && b.open) {
-            return false;
+            return true;
         } else {
             return older(a.expirationDate, b.expirationDate);
         }
@@ -101,17 +70,6 @@ class crab:public box {
     void updateNum(int a) {
         num = a;
     }
-
-    /*friend bool operator <(const crab& a, const crab& b) {
-        cout << "Sort: " << a.expirationDate->print() << endl;
-        if (a.open) {
-            return true;
-        } else if (a.open == false && b.open == true) {
-            return false;
-        } else {
-            return older(a.expirationDate, b.expirationDate);
-        }
-    }*/
 };
 
 struct compare3 {
@@ -133,24 +91,14 @@ class swordfish:public box {
     void updateNum(int a) {
         num = a;
     }
-    
-    /*friend bool operator <(const swordfish& a, const swordfish& b) {
-        if (a.open) {
-            return true;
-        } else if (a.open == false && b.open == true) {
-            return false;
-        } else {
-            return older(a.expirationDate, b.expirationDate);
-        }
-    }*/
 };
 
 struct compare4 {
     bool operator()(swordfish a, swordfish b) { 
         if (a.open) {
-            return true; 
+            return false; 
         } else if (!a.open && b.open) {
-            return false;
+            return true;
         } else {
             return older(a.expirationDate, b.expirationDate);
         }
