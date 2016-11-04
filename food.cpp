@@ -51,16 +51,15 @@ class shrimp:public box {
     }*/
 };
 
-struct compare1 
-{
-    bool operator()(shrimp a, shrimp b)
-    { 
-        if (a.open)
+struct compare1 {
+    bool operator()(shrimp a, shrimp b) { 
+        if (a.open) {
             return true; 
-        else if (!a.open && b.open)
+        } else if (!a.open && b.open) {
             return false;
-        else
+        } else {
             return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -83,16 +82,15 @@ class lobster:public box {
     }*/
 };
 
-struct compare2 
-{
-    bool operator()(lobster a, lobster b)
-    { 
-        if (a.open)
+struct compare2 {
+    bool operator()(lobster a, lobster b) { 
+        if (a.open) {
             return true; 
-        else if (!a.open && b.open)
+        } else if (!a.open && b.open) {
             return false;
-        else
+        } else {
             return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -116,16 +114,15 @@ class crab:public box {
     }*/
 };
 
-struct compare3 
-{
-    bool operator()(crab a, crab b)
-    { 
-        if (a.open)
-            return true; 
-        else if (!a.open && b.open)
-            return false;
-        else
+struct compare3 {
+    bool operator()(crab a, crab b) { 
+        if (a.open) {
+            return false; 
+        } else if (!a.open && b.open) {
+            return true;
+        } else {
             return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
 
@@ -148,15 +145,14 @@ class swordfish:public box {
     }*/
 };
 
-struct compare4 
-{
-    bool operator()(swordfish a, swordfish b)
-    { 
-        if (a.open)
+struct compare4 {
+    bool operator()(swordfish a, swordfish b) { 
+        if (a.open) {
             return true; 
-        else if (!a.open && b.open)
+        } else if (!a.open && b.open) {
             return false;
-        else
+        } else {
             return older(a.expirationDate, b.expirationDate);
+        }
     }
 };
