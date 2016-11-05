@@ -14,6 +14,7 @@ class box {
     box(date* e, int n) {
         expirationDate = e;
         num = n;
+        open = false;
     }
 
     void updateNum(int a) {
