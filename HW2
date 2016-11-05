@@ -1,0 +1,891 @@
+Script started on Fri 04 Nov 2016 11:33:35 PM EDT
+[4mpi[24m:[1m~/344[0m> c[K[4mpi[24m:[1m~/344[0m> cat main.cpp
+/*
+            Name: Cesar Rincon                  ID:804307817
+            Assignment: 344HW2
+
+*/
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <stdio.h>
+#include "date.cpp"
+#include "food.cpp"
+#include "truck.cpp"
+
+using namespace std;
+
+int main() {
+    truck t;
+
+    cout << "Enter your command: ";
+    string command;
+    string rawDate;
+    string type;
+    int count;
+       
+    do {
+        cin >> command;
+        if (command == "quit") {
+            break;
+        }
+        cin >> rawDate;
+        cin >> type;
+        cin >> count;
+
+        //got this spliter from http://stackoverflow.com/questions/28545031/take-input-of-date-in-format-mm-dd-yyyy-and-split-into-3-separate-variables
+        string delimiter = "/"; 
+        int month,day,year;
+        auto start = rawDate.begin(); // iterator at beginning of string
+        auto finish = rawDate.find(delimiter); // gives position of first occurrence of delimiter
+        if (finish == rawDate.npos) {
+            // delimiter does not exist in string.
+        } else {
+            month = stoi(rawDate.substr(0, finish)); // Extracts month part from date string
+            rawDate = rawDate.substr(finish+1);
+            day = stoi(rawDate.substr(0, finish)); // Extracts day part from date string
+            rawDate = rawDate.substr(finish+1);
+            year = stoi(rawDate.substr(0, 4)); // Extracts year part from date string
+            rawDate = rawDate.substr(finish+1);
+        }
+        date* dat1 = new date(month, day, year);
+
+        if (command == "stock") {
+            if (type == "shrimp") {
+                while (count > 0) {
+                    t.addShrimp(shrimp(dat1, 50));
+                    count--;
+                }
+                printf("Adding seafood to stockpile\n");
+                t.printShrimp(t.sh);
+            } else if (type == "lobster") {
+                while (count > 0) {
+                    t.addLobster(lobster(dat1, 4));
+                    count--;
+                }
+                printf("Adding seafood to stockpile\n");
+                t.printLobster(t.lo);
+            } else if (type == "crab") {
+                while (count > 0) {
+                    t.addCrab(crab(dat1, 6));
+                    count--;
+                }
+                printf("Adding seafood to stockpile\n");
+                t.printCrab(t.cr);
+            } else if (type == "swordfish") {
+                while (count > 0) {
+                    t.addSwordfish(swordfish(dat1, 8));
+                    count--;
+                }
+                printf("Adding seafood to stockpile\n");
+                t.printSwordfish(t.sw);
+            }
+        } else if (command == "buy") {
+            if (type == "shrimp") {
+                if (!t.sh.empty()) {
+                if (t.sh.top().open) {                      //if box is open carry out as usual
+                    if (count < t.sh.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        shrimp temp = t.sh.top();
+                        t.rmShrimp();
+                        temp.updateNum(temp.num - count);
+                        t.addShrimp(temp);
+                        t.printShrimp(t.sh);
+                    } else if (count == t.sh.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmShrimp();
+                        t.printShrimp(t.sh);
+                    } else {
+                        if (count <= (((t.sh.size() - 1) * 50) + t.sh.top().num)) {
+                            while (count > 0) {
+                                if (count < t.sh.top().num) {
+                                    int remain = t.sh.top().num - count;
+                                    shrimp temp = t.sh.top();
+                                    t.rmShrimp();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addShrimp(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.sh.top().num) {
+                                    t.rmShrimp();
+                                    count -= 50;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.sh.top().num;
+                                    t.rmShrimp();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printShrimp(t.sh);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                } else {                                    //if not then open the top box and then carry out transcation
+                    shrimp stemp = t.sh.top();
+                    t.rmShrimp();
+                    stemp.open = true;
+                    t.addShrimp(stemp);
+                    if (count < t.sh.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        shrimp temp = t.sh.top();
+                        t.rmShrimp();
+                        temp.updateNum(temp.num - count);
+                        t.addShrimp(temp);
+                        t.printShrimp(t.sh);
+                    } else if (count == t.sh.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmShrimp();
+                        t.printShrimp(t.sh);
+                    } else {
+                        if (count <= (((t.sh.size() - 1) * 50) + t.sh.top().num)) {
+                            while (count > 0) {
+                                if (count < t.sh.top().num) {
+                                    int remain = t.sh.top().num - count;
+                                    shrimp temp = t.sh.top();
+                                    t.rmShrimp();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addShrimp(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.sh.top().num) {
+                                    t.rmShrimp();
+                                    count -= 50;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.sh.top().num;
+                                    t.rmShrimp();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printShrimp(t.sh);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                }
+                } else {
+                    printf("No stock at the moment\n");
+                }
+                
+            } else if (type == "lobster") {
+                if (!t.lo.empty()) {
+                if (t.lo.top().open) {
+                    if (count < t.lo.top().num) {           //if box is open carry out as usual
+                        printf("Selling some product from stockpile\n");
+                        lobster temp = t.lo.top();
+                        t.rmLobster();
+                        temp.updateNum(temp.num - count);
+                        t.addLobster(temp);
+                        t.printLobster(t.lo);
+                    } else if (count == t.lo.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmLobster();
+                        t.printLobster(t.lo);
+                    } else {
+                        if (count <= (((t.lo.size() - 1) * 4) + t.lo.top().num)) {
+                            while (count > 0) {
+                                if (count < t.lo.top().num) {
+                                    int remain = t.lo.top().num - count;
+                                    lobster temp = t.lo.top();
+                                    t.rmLobster();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addLobster(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.lo.top().num) {
+                                    t.rmLobster();
+                                    count -= 4;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.lo.top().num;
+                                    t.rmLobster();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printLobster(t.lo);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                } else {                                    //if not then open the top box and then carry out transcation
+                    lobster ltemp = t.lo.top();
+                    t.rmLobster();
+                    ltemp.open = true;
+                    t.addLobster(ltemp);
+                    if (count < t.lo.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        lobster temp = t.lo.top();
+                        t.rmLobster();
+                        temp.updateNum(temp.num - count);
+                        t.addLobster(temp);
+                        t.printLobster(t.lo);
+                    } else if (count == t.lo.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmLobster();
+                        t.printLobster(t.lo);
+                    } else {
+                        if (count <= (((t.lo.size() - 1) * 4) + t.lo.top().num)) {
+                            while (count > 0) {
+                                if (count < t.lo.top().num) {
+                                    int remain = t.lo.top().num - count;
+                                    lobster temp = t.lo.top();
+                                    t.rmLobster();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addLobster(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.lo.top().num) {
+                                    t.rmLobster();
+                                    count -= 4;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.lo.top().num;
+                                    t.rmLobster();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printLobster(t.lo);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                }
+                } else {
+                    printf("No stock at the moment\n");
+                }
+            } else if (type == "crab") {
+                if (!t.cr.empty()) {
+                if (t.cr.top().open) {                              //if box is open carry out as usual
+                    if (count < t.cr.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        crab temp = t.cr.top();
+                        t.rmCrab();
+                        temp.updateNum(temp.num - count);
+                        t.addCrab(temp);
+                        t.printCrab(t.cr);
+                    } else if (count == t.cr.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmCrab();
+                        t.printCrab(t.cr);
+                    } else {
+                        if (count <= (((t.cr.size() - 1) * 6) + t.cr.top().num)) {
+                            while (count > 0) {
+                                if (count < t.cr.top().num) {
+                                    int remain = t.cr.top().num - count;
+                                    crab temp = t.cr.top();
+                                    t.rmCrab();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addCrab(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.cr.top().num) {
+                                    t.rmCrab();
+                                    count -= 6;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.cr.top().num;
+                                    t.rmCrab();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printCrab(t.cr);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                } else {                                            //if not then open the top box and then carry out transcation
+                    crab ctemp = t.cr.top();
+                    t.rmCrab();
+                    ctemp.open = true;
+                    t.addCrab(ctemp);
+                    if (count < t.cr.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        crab temp = t.cr.top();
+                        t.rmCrab();
+                        temp.updateNum(temp.num - count);
+                        t.addCrab(temp);
+                        t.printCrab(t.cr);
+                    } else if (count == t.cr.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmCrab();
+                        t.printCrab(t.cr);
+                    } else {
+                        if (count <= (((t.cr.size() - 1) * 6) + t.cr.top().num)) {
+                            while (count > 0) {
+                                if (count < t.cr.top().num) {
+                                    int remain = t.cr.top().num - count;
+                                    crab temp = t.cr.top();
+                                    t.rmCrab();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addCrab(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.cr.top().num) {
+                                    t.rmCrab();
+                                    count -= 6;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.cr.top().num;
+                                    t.rmCrab();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printCrab(t.cr);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                }
+                } else {
+                    printf("No stock at the moment\n");
+                }
+            } else if (type == "swordfish") {
+                if (!t.sw.empty()) {
+                if (t.sw.top().open) {                                  //if box is open carry out as usual
+                    if (count < t.sw.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        swordfish temp = t.sw.top();
+                        t.rmSwordfish();
+                        temp.updateNum(temp.num - count);
+                        t.addSwordfish(temp);
+                        t.printSwordfish(t.sw);
+                    } else if (count == t.sw.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmSwordfish();
+                        t.printSwordfish(t.sw);
+                    } else {
+                        if (count <= (((t.sw.size() - 1) * 8) + t.sw.top().num)) {
+                            while (count > 0) {
+                                if (count < t.sw.top().num) {
+                                    int remain = t.sw.top().num - count;
+                                    swordfish temp = t.sw.top();
+                                    t.rmSwordfish();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addSwordfish(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.sw.top().num) {
+                                    t.rmSwordfish();
+                                    count -= 8;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.sw.top().num;
+                                    t.rmSwordfish();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printSwordfish(t.sw);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                } else {                                                //if not then open the top box and then carry out transcation
+                    swordfish wtemp = t.sw.top();
+                    t.rmSwordfish();
+                    wtemp.open = true;
+                    t.addSwordfish(wtemp);
+                    if (count < t.sw.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        swordfish temp = t.sw.top();
+                        t.rmSwordfish();
+                        temp.updateNum(temp.num - count);
+                        t.addSwordfish(temp);
+                        t.printSwordfish(t.sw);
+                    } else if (count == t.sw.top().num) {
+                        printf("Selling some product from stockpile\n");
+                        t.rmSwordfish();
+                        t.printSwordfish(t.sw);
+                    } else {
+                        if (count <= (((t.sw.size() - 1) * 8) + t.sw.top().num)) {
+                            while (count > 0) {
+                                if (count < t.sw.top().num) {
+                                    int remain = t.sw.top().num - count;
+                                    swordfish temp = t.sw.top();
+                                    t.rmSwordfish();
+                                    temp.updateNum(remain);
+                                    temp.open = true;
+                                    t.addSwordfish(temp);
+                                    count = 0;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else if (count == t.sw.top().num) {
+                                    t.rmSwordfish();
+                                    count -= 8;
+                                    if (count == 0) {
+                                        break;
+                                    }
+                                } else {
+                                    count -= t.sw.top().num;
+                                    t.rmSwordfish();
+                                }
+                            }
+                            printf("Selling some product from stockpile\n");
+                            t.printSwordfish(t.sw);
+                        } else {
+                            printf("Insufficient inventory, please try again another time\n");
+                        }
+                    }
+                }
+                } else {
+                    printf("No stock at the moment\n");
+                }
+            }
+        }
+    } while (command != "quit");
+
+    return 0;
+}[4mpi[24m:[1m~/344[0m> cat food.cpp
+#include <iostream>
+#include <string>
+#include "date.h"
+#pragma once
+using namespace std;
+
+class box {
+    
+    public:
+    bool open;
+    date* expirationDate;
+    int num;
+
+    box(date* e, int n) {
+        expirationDate = e;
+        num = n;
+        open = false;
+    }
+
+    void updateNum(int a) {
+        num = a;
+    }
+};
+
+class shrimp:public box {
+    public:
+    shrimp(date* e, int n): box(e, n) {}
+
+    void updateNum(int a) {
+        num = a;
+    }
+};
+
+struct compare1 {
+    bool operator()(shrimp a, shrimp b) { 
+        if (a.open) {
+            return false; 
+        } else if (!a.open && b.open) {
+            return true;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
+    }
+};
+
+class lobster:public box {
+    public:
+    lobster(date* e, int n): box(e, n) {}
+
+    void updateNum(int a) {
+        num = a;
+    }
+};
+
+struct compare2 {
+    bool operator()(lobster a, lobster b) { 
+        if (a.open) {
+            return false; 
+        } else if (!a.open && b.open) {
+            return true;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
+    }
+};
+
+class crab:public box {
+    public:
+    crab(date* e, int n): box(e, n) {}
+
+    void updateNum(int a) {
+        num = a;
+    }
+};
+
+struct compare3 {
+    bool operator()(crab a, crab b) { 
+        if (a.open) {
+            return false; 
+        } else if (!a.open && b.open) {
+            return true;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
+    }
+};
+
+class swordfish:public box {
+    public:
+    swordfish(date* e, int n): box(e, n) {}
+
+    void updateNum(int a) {
+        num = a;
+    }
+};
+
+struct compare4 {
+    bool operator()(swordfish a, swordfish b) { 
+        if (a.open) {
+            return false; 
+        } else if (!a.open && b.open) {
+            return true;
+        } else {
+            return older(a.expirationDate, b.expirationDate);
+        }
+    }
+};[4mpi[24m:[1m~/344[0m> cat truck.cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <queue>
+#include "food.cpp"
+using namespace std;
+
+
+
+class truck {
+
+    public:
+    
+    priority_queue<shrimp, vector<shrimp>, compare1> sh;
+    priority_queue<lobster, vector<lobster>, compare2> lo;
+    priority_queue<crab, vector<crab>, compare3> cr;
+    priority_queue<swordfish, vector<swordfish>, compare4> sw;
+
+    void addShrimp(shrimp s) {
+        sh.push(s);
+    }
+    void addLobster(lobster l) {
+        lo.push(l);
+    }
+    void addCrab(crab c) {
+        cr.push(c);
+    }
+    void addSwordfish(swordfish s) {
+        sw.push(s);
+    }
+
+    void rmShrimp() {
+        sh.pop();
+    }
+    void rmLobster() {
+        lo.pop();
+    }
+    void rmCrab() {
+        cr.pop();
+    }
+    void rmSwordfish() {
+        sw.pop();
+    }
+
+    void printShrimp(priority_queue<shrimp, vector<shrimp>, compare1> sh) {
+        printf("Shrimp: ");
+        while (!sh.empty()) {
+            shrimp largest = sh.top();
+            sh.pop();
+            char s;
+            if (largest.open) {
+                s = 'o';
+            } else {
+                s = 'c';
+            }
+            string line = largest.expirationDate->print() + ":" + to_string(largest.num) + ":" + s;
+            cout << line << (!sh.empty() ? ", " : "");
+        }
+        cout << endl;
+    }
+
+    void printLobster(priority_queue<lobster, vector<lobster>, compare2> lo) {
+        printf("Lobster: ");
+        while (!lo.empty()) {
+            lobster largest = lo.top();
+            lo.pop();
+            char s;
+            if (largest.open) {
+                s = 'o';
+            } else {
+                s = 'c';
+            }
+            string line = largest.expirationDate->print() + ":" + to_string(largest.num) + ":" + s;
+            cout << line << (!lo.empty() ? ", " : "");
+        }
+        cout << endl;
+    }
+
+    void printCrab(priority_queue<crab, vector<crab>, compare3> sh) {
+        printf("Crab: ");
+        while (!sh.empty()) {
+            crab largest = sh.top();
+            sh.pop();
+            char s;
+            if (largest.open) {
+                s = 'o';
+            } else {
+                s = 'c';
+            }
+            string line = largest.expirationDate->print() + ":" + to_string(largest.num) + ":" + s;
+            cout << line << (!sh.empty() ? ", " : "");
+        }
+        cout << endl;
+    }
+
+    void printSwordfish(priority_queue<swordfish, vector<swordfish>, compare4> sh){
+        printf("Swordfish: ");
+        while (!sh.empty()) {
+            swordfish largest = sh.top();
+            sh.pop();
+            char s;
+            if (largest.open) {
+                s = 'o';
+            } else {
+                s = 'c';
+            }
+            string line = largest.expirationDate->print() + ":" + to_string(largest.num) + ":" + s;
+            cout << line << (!sh.empty() ? ", " : "");
+        }
+        cout << endl;
+    }
+    
+};[4mpi[24m:[1m~/344[0m> cat data.[K[Ke.h
+#pragma once
+
+class date {
+    public:
+    int day,month,year;
+    
+    date(int m, int d, int y);
+
+    std::string print();
+    
+};[4mpi[24m:[1m~/344[0m> cat date.cpp
+#include <iostream>
+#include <string>
+#include "date.h"
+#pragma once
+using namespace std;
+
+    date::date(int m, int d, int y) {
+        month = m;
+        day = d;
+        year = y;
+    }
+
+    string date::print() {
+        return to_string(month) + "/" + to_string(day) + "/" + to_string(year);
+    }
+
+bool older(date* const a, date* const b) {
+    if (a->year < b->year) {
+        return false;
+    } else if (a->year > b->year) {
+        return true;
+    } else if (a->month < b->month) {
+        return false;
+    } else if (a->month > b->month) {
+        return true;
+    } else if (a->day < b->day) {
+        return false;
+    } else if (a->day > b->day) {
+        return true;
+    } else {
+        return false;
+    }
+}[4mpi[24m:[1m~/344[0m> g++ -std=c++11 main.cpp 
+[4mpi[24m:[1m~/344[0m> ./a.out
+Enter your command: stock 10/12/2014 crab 4
+Adding seafood to stockpile
+Crab: 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+stock 12/28/2012 shrimp 2
+Adding seafood to stockpile
+Shrimp: 12/28/2012:50:c, 12/28/2012:50:c
+stock 12/25/2013 swordfish 4
+Adding seafood to stockpile
+Swordfish: 12/25/2013:8:c, 12/25/2013:8:c, 12/25/2013:8:c, 12/25/2013:8:c
+stock 04/14/2014 crab 2
+Adding seafood to stockpile
+Crab: 4/14/2014:6:c, 4/14/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+stock 09/21/2014 crab 3
+Adding seafood to stockpile
+Crab: 4/14/2014:6:c, 4/14/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+buy 02/01/2016 crab 1
+Selling some product from stockpile
+Crab: 4/14/2014:5:o, 4/14/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+stock 07/01/2012 swordfish 2
+Adding seafood to stockpile
+Swordfish: 7/1/2012:8:c, 7/1/2012:8:c, 12/25/2013:8:c, 12/25/2013:8:c, 12/25/2013:8:c, 12/25/2013:8:c
+buy 02/01/2016 lobster 4
+No stock at the moment
+buy 02/01/2016 crab 5
+Selling some product from stockpile
+Crab: 4/14/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+buy 02/01/2016 crab 1
+Selling some product from stockpile
+Crab: 4/14/2014:5:o, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+buy 03/01/2016 swordfish 1
+Selling some product from stockpile
+Swordfish: 7/1/2012:7:o, 7/1/2012:8:c, 12/25/2013:8:c, 12/25/2013:8:c, 12/25/2013:8:c, 12/25/2013:8:c
+buy 03/01/2016 shrimp 50
+Selling some product from stockpile
+Shrimp: 12/28/2012:50:c
+buy 03/01/2016 lobster 4
+No stock at the moment
+buy 03/01/2016 lobster 3
+No stock at the moment
+buy 03/01/2016 shrimp 19
+Selling some product from stockpile
+Shrimp: 12/28/2012:31:o
+stock 12/05/2012 crab 3
+Adding seafood to stockpile
+Crab: 4/14/2014:5:o, 12/5/2012:6:c, 12/5/2012:6:c, 12/5/2012:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+buy 03/01/2016 crab 4
+Selling some product from stockpile
+Crab: 4/14/2014:1:o, 12/5/2012:6:c, 12/5/2012:6:c, 12/5/2012:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+stock 02/04/2014 shrimp 2
+Adding seafood to stockpile
+Shrimp: 12/28/2012:31:o, 2/4/2014:50:c, 2/4/2014:50:c
+buy 04/01/2016 crab 5
+Selling some product from stockpile
+Crab: 12/5/2012:2:o, 12/5/2012:6:c, 12/5/2012:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+stock 12/10/2012 shrimp 5
+Adding seafood to stockpile
+Shrimp: 12/28/2012:31:o, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 2/4/2014:50:c, 2/4/2014:50:c
+buy 04/02/2016 shrimp 21
+Selling some product from stockpile
+Shrimp: 12/28/2012:10:o, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 2/4/2014:50:c, 2/4/2014:50:c
+buy 05/01/2016 crab 1
+Selling some product from stockpile
+Crab: 12/5/2012:1:o, 12/5/2012:6:c, 12/5/2012:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 9/21/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c, 10/12/2014:6:c
+buy 05/02/2016 lobster 2
+No stock at the moment
+buy 05/03/2016 lobster 3
+No stock at the moment
+stock 10/29/2012 shrimp 5
+Adding seafood to stockpile
+Shrimp: 12/28/2012:10:o, 10/29/2012:50:c, 10/29/2012:50:c, 10/29/2012:50:c, 10/29/2012:50:c, 10/29/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 12/10/2012:50:c, 2/4/2014:50:c, 2/4/2014:50:c
+quit
+[4mpi[24m:[1m~/344[0m> ./a.out
+Enter your command: stock 04/01/2013 swordfish 2
+Adding seafood to stockpile
+Swordfish: 4/1/2013:8:c, 4/1/2013:8:c
+stock 11/22/2013 shrimp 2
+Adding seafood to stockpile
+Shrimp: 11/22/2013:50:c, 11/22/2013:50:c
+stock 12/17/2012 swordfish 2
+Adding seafood to stockpile
+Swordfish: 12/17/2012:8:c, 12/17/2012:8:c, 4/1/2013:8:c, 4/1/2013:8:c
+stock 06/12/2014 crab 2
+Adding seafood to stockpile
+Crab: 6/12/2014:6:c, 6/12/2014:6:c
+stock 03/01/2012 swordfish 3
+Adding seafood to stockpile
+Swordfish: 3/1/2012:8:c, 3/1/2012:8:c, 3/1/2012:8:c, 12/17/2012:8:c, 12/17/2012:8:c, 4/1/2013:8:c, 4/1/2013:8:c
+buy 01/01/2016 crab 3
+Selling some product from stockpile
+Crab: 6/12/2014:3:o, 6/12/2014:6:c
+stock 01/02/2014 swordfish 3
+Adding seafood to stockpile
+Swordfish: 3/1/2012:8:c, 3/1/2012:8:c, 3/1/2012:8:c, 12/17/2012:8:c, 12/17/2012:8:c, 4/1/2013:8:c, 4/1/2013:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 1/2/2014:8:c
+buy 01/01/2016 lobster 2
+No stock at the moment
+stock 07/24/2013 shrimp 4
+Adding seafood to stockpile
+Shrimp: 7/24/2013:50:c, 7/24/2013:50:c, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+buy 01/01/2016 shrimp 45
+Selling some product from stockpile
+Shrimp: 7/24/2013:5:o, 7/24/2013:50:c, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+buy 01/02/2016 shrimp 10
+Selling some product from stockpile
+Shrimp: 7/24/2013:45:o, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+buy 01/03/2016 crab 4
+Selling some product from stockpile
+Crab: 6/12/2014:5:o
+stock 12/08/2012 lobster 5
+Adding seafood to stockpile
+Lobster: 12/8/2012:4:c, 12/8/2012:4:c, 12/8/2012:4:c, 12/8/2012:4:c, 12/8/2012:4:c
+buy 01/03/2016 crab 2
+Selling some product from stockpile
+Crab: 6/12/2014:3:o
+buy 02/01/2016 shrimp 36
+Selling some product from stockpile
+Shrimp: 7/24/2013:9:o, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+buy 02/01/2016 crab 3
+Selling some product from stockpile
+Crab: 
+stock 08/07/2013 crab 3
+Adding seafood to stockpile
+Crab: 8/7/2013:6:c, 8/7/2013:6:c, 8/7/2013:6:c
+stock 05/31/2014 swordfish 1
+Adding seafood to stockpile
+Swordfish: 3/1/2012:8:c, 3/1/2012:8:c, 3/1/2012:8:c, 12/17/2012:8:c, 12/17/2012:8:c, 4/1/2013:8:c, 4/1/2013:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 5/31/2014:8:c
+stock 03/12/2013 crab 3
+Adding seafood to stockpile
+Crab: 3/12/2013:6:c, 3/12/2013:6:c, 3/12/2013:6:c, 8/7/2013:6:c, 8/7/2013:6:c, 8/7/2013:6:c
+buy 03/01/2016 crab 2
+Selling some product from stockpile
+Crab: 3/12/2013:4:o, 3/12/2013:6:c, 3/12/2013:6:c, 8/7/2013:6:c, 8/7/2013:6:c, 8/7/2013:6:c
+stock 02/04/2013 shrimp 4
+Adding seafood to stockpile
+Shrimp: 7/24/2013:9:o, 2/4/2013:50:c, 2/4/2013:50:c, 2/4/2013:50:c, 2/4/2013:50:c, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+buy 03/01/2016 shrimp 24
+Selling some product from stockpile
+Shrimp: 2/4/2013:35:o, 2/4/2013:50:c, 2/4/2013:50:c, 2/4/2013:50:c, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+buy 04/01/2016 swordfish 1
+Selling some product from stockpile
+Swordfish: 3/1/2012:7:o, 3/1/2012:8:c, 3/1/2012:8:c, 12/17/2012:8:c, 12/17/2012:8:c, 4/1/2013:8:c, 4/1/2013:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 5/31/2014:8:c
+stock 10/25/2013 swordfish 5
+Adding seafood to stockpile
+Swordfish: 3/1/2012:7:o, 3/1/2012:8:c, 3/1/2012:8:c, 12/17/2012:8:c, 12/17/2012:8:c, 4/1/2013:8:c, 4/1/2013:8:c, 10/25/2013:8:c, 10/25/2013:8:c, 10/25/2013:8:c, 10/25/2013:8:c, 10/25/2013:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 1/2/2014:8:c, 5/31/2014:8:c
+buy 04/01/2016 shrimp 42
+Selling some product from stockpile
+Shrimp: 2/4/2013:43:o, 2/4/2013:50:c, 2/4/2013:50:c, 7/24/2013:50:c, 7/24/2013:50:c, 11/22/2013:50:c, 11/22/2013:50:c
+quit
+[4mpi[24m:[1m~/344[0m> e[K[4mpi[24m:[1m~/344[0m> exit[K[K[K[Kexit
+exit
+
+Script done on Fri 04 Nov 2016 11:45:29 PM EDT
