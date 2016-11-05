@@ -76,7 +76,7 @@ int main() {
             }
         } else if (command == "buy") {
             if (type == "shrimp") {
-                while (!t.sh.empty()) {
+                if (!t.sh.empty()) {
                 if (t.sh.top().open) {                      //if box is open carry out as usual
                     if (count < t.sh.top().num) {
                         printf("Selling some product from stockpile\n");
@@ -97,6 +97,7 @@ int main() {
                                     shrimp temp = t.sh.top();
                                     t.rmShrimp();
                                     temp.updateNum(remain);
+                                    temp.open = true;
                                     t.addShrimp(temp);
                                     count = 0;
                                     if (count == 0) {
@@ -120,10 +121,10 @@ int main() {
                         }
                     }
                 } else {                                    //if not then open the top box and then carry out transcation
-                    shrimp temp = t.sh.top();
+                    shrimp stemp = t.sh.top();
                     t.rmShrimp();
-                    temp.open = true;
-                    t.addShrimp(temp);
+                    stemp.open = true;
+                    t.addShrimp(stemp);
                     if (count < t.sh.top().num) {
                         printf("Selling some product from stockpile\n");
                         shrimp temp = t.sh.top();
@@ -167,10 +168,12 @@ int main() {
                         }
                     }
                 }
+                } else {
+                    printf("No stock at the moment\n");
                 }
                 
             } else if (type == "lobster") {
-                while (!t.lo.empty()) {
+                if (!t.lo.empty()) {
                 if (t.lo.top().open) {
                     if (count < t.lo.top().num) {           //if box is open carry out as usual
                         printf("Selling some product from stockpile\n");
@@ -191,6 +194,7 @@ int main() {
                                     lobster temp = t.lo.top();
                                     t.rmLobster();
                                     temp.updateNum(remain);
+                                    temp.open = true;
                                     t.addLobster(temp);
                                     count = 0;
                                     if (count == 0) {
@@ -214,10 +218,10 @@ int main() {
                         }
                     }
                 } else {                                    //if not then open the top box and then carry out transcation
-                    lobster temp = t.lo.top();
+                    lobster ltemp = t.lo.top();
                     t.rmLobster();
-                    temp.open = true;
-                    t.addLobster(temp);
+                    ltemp.open = true;
+                    t.addLobster(ltemp);
                     if (count < t.lo.top().num) {
                         printf("Selling some product from stockpile\n");
                         lobster temp = t.lo.top();
@@ -261,9 +265,11 @@ int main() {
                         }
                     }
                 }
+                } else {
+                    printf("No stock at the moment\n");
                 }
             } else if (type == "crab") {
-                while (!t.cr.empty()) {
+                if (!t.cr.empty()) {
                 if (t.cr.top().open) {                              //if box is open carry out as usual
                     if (count < t.cr.top().num) {
                         printf("Selling some product from stockpile\n");
@@ -284,6 +290,7 @@ int main() {
                                     crab temp = t.cr.top();
                                     t.rmCrab();
                                     temp.updateNum(remain);
+                                    temp.open = true;
                                     t.addCrab(temp);
                                     count = 0;
                                     if (count == 0) {
@@ -307,10 +314,10 @@ int main() {
                         }
                     }
                 } else {                                            //if not then open the top box and then carry out transcation
-                    crab temp = t.cr.top();
+                    crab ctemp = t.cr.top();
                     t.rmCrab();
-                    temp.open = true;
-                    t.addCrab(temp);
+                    ctemp.open = true;
+                    t.addCrab(ctemp);
                     if (count < t.cr.top().num) {
                         printf("Selling some product from stockpile\n");
                         crab temp = t.cr.top();
@@ -354,9 +361,11 @@ int main() {
                         }
                     }
                 }
+                } else {
+                    printf("No stock at the moment\n");
                 }
             } else if (type == "swordfish") {
-                while (!t.sw.empty()) {
+                if (!t.sw.empty()) {
                 if (t.sw.top().open) {                                  //if box is open carry out as usual
                     if (count < t.sw.top().num) {
                         printf("Selling some product from stockpile\n");
@@ -377,6 +386,7 @@ int main() {
                                     swordfish temp = t.sw.top();
                                     t.rmSwordfish();
                                     temp.updateNum(remain);
+                                    temp.open = true;
                                     t.addSwordfish(temp);
                                     count = 0;
                                     if (count == 0) {
@@ -400,10 +410,10 @@ int main() {
                         }
                     }
                 } else {                                                //if not then open the top box and then carry out transcation
-                    swordfish temp = t.sw.top();
+                    swordfish wtemp = t.sw.top();
                     t.rmSwordfish();
-                    temp.open = true;
-                    t.addSwordfish(temp);
+                    wtemp.open = true;
+                    t.addSwordfish(wtemp);
                     if (count < t.sw.top().num) {
                         printf("Selling some product from stockpile\n");
                         swordfish temp = t.sw.top();
@@ -447,6 +457,8 @@ int main() {
                         }
                     }
                 }
+                } else {
+                    printf("No stock at the moment\n");
                 }
             }
         }
