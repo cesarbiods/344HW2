@@ -1,3 +1,8 @@
+/*
+            Name: Cesar Rincon                  ID:804307817
+            Assignment: 344HW2
+
+*/
 #include <iostream>
 #include <string>
 #include <sstream>
