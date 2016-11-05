@@ -170,6 +170,7 @@ int main() {
                 }
                 
             } else if (type == "lobster") {
+                while (!t.lo.empty()) {
                 if (t.lo.top().open) {
                     if (count < t.lo.top().num) {           //if box is open carry out as usual
                         printf("Selling some product from stockpile\n");
@@ -260,7 +261,9 @@ int main() {
                         }
                     }
                 }
+                }
             } else if (type == "crab") {
+                while (!t.cr.empty()) {
                 if (t.cr.top().open) {                              //if box is open carry out as usual
                     if (count < t.cr.top().num) {
                         printf("Selling some product from stockpile\n");
@@ -351,7 +354,9 @@ int main() {
                         }
                     }
                 }
+                }
             } else if (type == "swordfish") {
+                while (!t.sw.empty()) {
                 if (t.sw.top().open) {                                  //if box is open carry out as usual
                     if (count < t.sw.top().num) {
                         printf("Selling some product from stockpile\n");
@@ -441,6 +446,7 @@ int main() {
                             printf("Insufficient inventory, please try again another time\n");
                         }
                     }
+                }
                 }
             }
         }
